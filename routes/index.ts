@@ -2,13 +2,14 @@
 import { Router } from 'express';
 import userRoutes from './userRoutes';
 import attendanceRoutes from './attendanceRoutes';
+import sermonRoutes from './sermonRoutes';
 // Import other routes
 
 const router = Router();
 
 router.use('/users', userRoutes);
 router.use('/attendance', attendanceRoutes);
-// router.use('/sermons', sermonRoutes);
+router.use('/sermons', sermonRoutes);
 // router.use('/follow-up', followUpRoutes);
 
 export default router;
