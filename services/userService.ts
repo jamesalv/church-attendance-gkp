@@ -9,7 +9,10 @@ export const createUser = async (user: UserInsert): Promise<User> => {
         .select()
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error(`Error creating user: ${error.message}`);
+        throw new Error(`Error creating user: ${error.message}`);
+    }
     return data;
 }
 
@@ -21,7 +24,10 @@ export const getUserById = async (userId: string): Promise<User | null> => {
         .eq('id', userId)
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error(`Error fetching user by ID: ${error.message}`);
+        throw new Error(`Error fetching user by ID: ${error.message}`);
+    }
     return data;
 }
 
@@ -33,7 +39,10 @@ export const getInactiveUsers = async (timeThreshold: Date): Promise<User[] | nu
         .lte('last_attendance', timeThreshold.toISOString())
         .order('last_attendance', { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+        console.error(`Error fetching inactive users: ${error.message}`);
+        throw new Error(`Error fetching inactive users: ${error.message}`);
+    }
     return data;
 }
 
@@ -46,6 +55,9 @@ export const updateLastAttendance = async (user: UserUpdate): Promise<User> => {
         .select()
         .single()
 
-    if (error) throw error
+    if (error) {
+        console.error(`Error updating last attendance: ${error.message}`);
+        throw new Error(`Error updating last attendance: ${error.message}`);
+    }
     return data
 }

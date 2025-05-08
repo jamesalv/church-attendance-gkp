@@ -17,7 +17,10 @@ export const checkInAttendance = async (attendance: AttendanceInsert): Promise<A
         .select('*')
         .single();
 
-    if (error) throw error
+    if (error) {
+        console.error(`Error checking in attendance: ${error.message}`);
+        throw new Error(`Error checking in attendance: ${error.message}`);
+    }
 
     // Update user last attendance
     const user: UserUpdate = {

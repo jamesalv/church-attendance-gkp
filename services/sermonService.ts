@@ -8,7 +8,11 @@ export const createSermon = async (sermon: SermonInsert): Promise<Sermon> => {
         .select()
         .single();
 
-    if (error) throw error;
+    if (error) {
+        console.error(`Error creating sermon: ${error.message}`);
+        throw new Error(`Error creating sermon: ${error.message}`);
+    }
+
     return data;
 }
 
@@ -17,6 +21,10 @@ export const getSermons = async (): Promise<Sermon[]> => {
         .from('MsSermon')
         .select('*');
 
-    if (error) throw error;
+    if (error) {
+        console.error(`Error fetching sermons: ${error.message}`);
+        throw new Error(`Error fetching sermons: ${error.message}`);
+    }
+
     return data;
 }
