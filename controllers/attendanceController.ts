@@ -4,19 +4,19 @@ import { AttendanceInsert } from '../types/attendanceTypes';
 
 export const checkInAttendance = async (req: Request, res: Response) => {
     try {
-        const { user_id, checkin_time, checkout_time } = req.body;
+        const { user_id, sermon_id } = req.body;
 
         // Validate required fields
-        if (!user_id || !checkin_time) {
+        if (!user_id || !sermon_id) {
             return res.status(400).json({
                 success: false,
-                message: 'User ID and check-in time are required fields',
+                message: 'Missing required fields: user_id, sermon_id'
             });
         }
 
         const attendanceData: AttendanceInsert = {
             user_id,
-            checkin_time,
+            sermon_id,
         };
 
         const newAttendance = await attendanceService.checkInAttendance(attendanceData);

@@ -1,9 +1,16 @@
 import supabase from '../config/supabase';
 import { Attendance, AttendanceInsert } from '../types/attendanceTypes';
 import { UserUpdate } from '../types/userTypes'
-import { updateLastAttendance } from './userService'
+import { getUserById, updateLastAttendance } from './userService'
 
 export const checkInAttendance = async (attendance: AttendanceInsert): Promise<Attendance> => {
+    // Check if user exists
+    const userData = await getUserById(attendance.user_id!)
+    if (!userData) {
+        console.error('User not found')
+        throw new Error('User not found')
+    }
+
     const { data, error } = await supabase
         .from('AttendanceRecord')
         .insert(attendance)
@@ -17,7 +24,7 @@ export const checkInAttendance = async (attendance: AttendanceInsert): Promise<A
         id: attendance.user_id,
         last_attendance: data.checkin_time
     }
-    updateLastAttendance(user)
+    await updateLastAttendance(user)
 
     return data
 }
